@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-
+ 
    def index
     @posts = Post.all
    end
@@ -10,7 +10,15 @@ class PostsController < ApplicationController
 
      def create
         @post = Post.new
+        if @post.save 
+            puts "yay"
+            redirect_to post_path
+        else
+        puts "nay"
+        redirect_to root_path
+        end 
     end
+    
 
     def show
         @post = Post.find(params[:id])
@@ -25,5 +33,12 @@ class PostsController < ApplicationController
         @post.update(post_params)
         redirect_to(post_path(@post))
     end
+
+    private 
+    def permit_post
+        params.require(:post).permit(:image, :description)
+    end 
+
     
 end
+ 
